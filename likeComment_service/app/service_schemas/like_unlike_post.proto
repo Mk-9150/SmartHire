@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+message LikePosted {
+  string event_type = 1; // "liked"
+  int32 post_id = 2;
+  string liked_by = 3;
+  bool liked_status = 4; // true for like
+}
+
+message UnlikePosted {
+  string event_type = 1; // "unliked"
+  int32 post_id = 2;
+  string unliked_by = 3;
+}
+
+message EventWrapper {
+  oneof event {
+    LikePosted like_posted = 1;
+    UnlikePosted unlike_posted = 2;
+  }
+}

@@ -1,0 +1,17 @@
+1 #    ---->    add login functionality  in quiz engine 
+
+2 #    ---->    diccuss about quizruntime model.py  with junaid
+
+3 #    ---->    make changes to file  init_data.py  ***************   Required
+
+
+4 #   ----->    will ask for QuizRunTimeGeneration    
+
+
+5 #   ----->    Learn about Time Zone and implement i correct way in quiz setting or other file if needed    
+
+
+
+6  #  ---->  Make Wrapper   QuizRunTiMEGeneration   QuizRunTimeModels  
+
+

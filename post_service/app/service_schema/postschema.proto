@@ -1,0 +1,33 @@
+syntax = "proto3";
+message PostCreated {
+  string event_type = 1;
+  int32 post_id = 2;
+  int32 user_id = 3;
+  
+}
+
+// message PostUpdated {
+//   string event_type = 1;
+//   int32 post_id = 2;
+//   int32 user_id = 3;
+//   Content content = 4;
+//   string updated_at = 5;
+//   repeated string tags = 6;
+//   int32 likes_count = 7;
+//   int32 comments_count = 8;
+
+//   message Content {
+//     string text = 1;
+//     string media_url = 2;
+//   }
+// }
+//   Content content = 4;
+//   string updated_at = 5;
+//   repeated string tags = 6;
+//   int32 likes_count = 7;
+//   int32 comments_count = 8;
+
+//   message Content {
+//     string text = 1;
+//     string media_url = 2;
+//   }
