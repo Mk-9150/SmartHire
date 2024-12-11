@@ -2,6 +2,7 @@
 .lkenv/
 .new/
 .sssenv/
+.pfenv/
 comment_service/
 practo/
 socialMedia_service/
