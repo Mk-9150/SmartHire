@@ -1,8 +1,12 @@
 from sqlmodel import SQLModel , Field
-from datetime import datetime
+from datetime import datetime , timezone
 
 
-class BaseIdModel():
-    id: int |None = Field(default=None, primary_key=True)
-    created_at: datetime = Field(default_factory=datetime.now)
-    updated_at:datetime|None=Field(default_factory=datetime.utcnow , sa_column_kwargs={"onupdate":datetime.now})
+
+class BaseIdModel(SQLModel):
+    id: int | None = Field(default=None, primary_key=True)
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))  # Timezone-aware UTC datetime
+    updated_at: datetime | None = Field(
+        default_factory=lambda: datetime.now(timezone.utc),
+        sa_column_kwargs={"onupdate": lambda: datetime.now(timezone.utc)}  # Automatically updated in UTC
+    )

@@ -1,0 +1,9 @@
+syntax = "proto3";
+message Applier {
+  string event_type = 1;
+  int32 applier_id = 2;
+  int32 user_id = 3;
+  int32 jobpost_id = 4;
+  string username = 5;
+}
+

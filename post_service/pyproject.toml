@@ -32,6 +32,8 @@ aiokafka = "^0.10.0"
 psycopg2 = "^2.9.9"
 protobuf = "^5.27.3"
 confluent-kafka = "^2.5.3"
+pytz = "^2024.2"
+pyjwt = "^2.10.1"
 
 
 [build-system]

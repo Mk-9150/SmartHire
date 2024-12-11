@@ -14,16 +14,14 @@ def Generate_New_Account(data:Account):
     """
     Create new user.
     """
+    # print(data)
     if settings.EmailEnabled :
         email_data = generate_new_account_email(
             email_to=data.email, username=data.username,
         )
-        send_email(
-            email_to=data.email,
-            subject=email_data.subject,
-            html_content=email_data.html_content,
-        )
-    return status.HTTP_200_OK
+        res=send_email(email_to=data.email,subject=email_data.subject,html_content=email_data.html_content)
+        return res
+    # return status.HTTP_200_OK
 
 
 

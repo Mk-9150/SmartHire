@@ -107,6 +107,7 @@ services:
     build:
       context: ./post_service
       dockerfile: Dockerfile
+    container_name: postservce  
     volumes:
         - ./post_service:/code  # Sync local development directory with the container  
     depends_on:
@@ -122,7 +123,7 @@ services:
     #   - my-api-net
 
   postgres_db:
-    image: postgres:latest  # Use the official PostgreSQL image
+    image: postgres:16  # Use the official PostgreSQL image
     restart: always
     container_name: PostgresContt
     environment:
@@ -137,6 +138,7 @@ services:
     build:
       context: ./likeComment_service
       dockerfile: Dockerfile
+    container_name: likecommentService  
     volumes:
         - ./likeComment_service:/code  # Sync local development directory with the container  
     depends_on:
@@ -152,7 +154,7 @@ services:
     #   - my-api-net
 
   postgres_db2:
-    image: postgres:latest  # Use the official PostgreSQL image
+    image: postgres:16  # Use the official PostgreSQL image
     restart: always
     container_name: lkcmtContt
     environment:
@@ -172,6 +174,7 @@ services:
     build:
       context: ./user_Auth_service
       dockerfile: Dockerfile
+    container_name: UserAuth  
     volumes:
         - ./user_Auth_service:/code  # Sync local development directory with the container  
     depends_on:
@@ -188,7 +191,7 @@ services:
 
 
   postgres_db3:
-    image: postgres:latest  # Use the official PostgreSQL image
+    image: postgres:16  # Use the official PostgreSQL image
     restart: always
     container_name: UserAuthService
     environment:
@@ -209,6 +212,7 @@ services:
     build:
       context: ./emailService
       dockerfile: Dockerfile
+    container_name: emailservice  
     volumes:
         - ./emailService:/code  # Sync local development directory with the container  
     # depends_on:
@@ -222,6 +226,110 @@ services:
       - "8003:8000"  # Expose container port 8000 to host port 8000  
     # networks:
     #   - my-api-net
+  api5:
+    build:
+      context: ./profile_management_service
+      dockerfile: Dockerfile
+    container_name: profileServce  
+    volumes:
+        - ./profile_management_service:/code  # Sync local development directory with the container  
+    depends_on:
+        - postgres_db4
+        - kafka-1
+        - kafka-2
+        - kafka-3 
+        - schema-registry
+
+    ports:
+      - "8004:8000"  # Expose container port 8000 to host port 8000  
+    # networks:
+    #   - my-api-net
+
+  postgres_db4:
+    image: postgres:16  # Use the official PostgreSQL image
+    restart: always
+    container_name: ProfileService
+    environment:
+        - POSTGRES_USER=uprofile
+        - POSTGRES_PASSWORD=profilepass
+        - POSTGRES_DB=profiledb
+    ports:
+        - '5436:5432'
+    volumes:
+        - postgres_db4:/var/lib/postgresql/data    
+    #     - postgres_db:/var/lib/postgresql/data
+    # networks:
+    #   - my-api-net  
+    # volumes:  
+  api6:
+    build:
+      context: ./feedService
+      dockerfile: Dockerfile
+    container_name: feedServce  
+    volumes:
+        - ./feedService:/code  # Sync local development directory with the container  
+    depends_on:
+        - postgres_db5
+        - kafka-1
+        - kafka-2
+        - kafka-3 
+        - schema-registry
+
+    ports:
+      - "8005:8000"  # Expose container port 8000 to host port 8000  
+    # networks:
+    #   - my-api-net
+
+  postgres_db5:
+    image: postgres:16  # Use the official PostgreSQL image
+    restart: always
+    container_name: feedSrviceCont
+    environment:
+        - POSTGRES_USER=feedServiceUser
+        - POSTGRES_PASSWORD=feedpass
+        - POSTGRES_DB=feeddb
+    ports:
+        - '5437:5432'
+    volumes:
+        - postgres_db5:/var/lib/postgresql/data    
+    #     - postgres_db:/var/lib/postgresql/data
+    # networks:
+    #   - my-api-net  
+    # volumes:  
+  api7:
+    build:
+      context: ./uni_profile_management_service
+      dockerfile: Dockerfile
+    container_name: uniProfileService  
+    volumes:
+        - ./uni_profile_management_service:/code  # Sync local development directory with the container  
+    depends_on:
+        - postgres_db6
+        - kafka-1
+        - kafka-2
+        - kafka-3 
+        - schema-registry
+
+    ports:
+      - "8006:8000"  # Expose container port 8000 to host port 8000  
+    # networks:
+    #   - my-api-net
+  postgres_db6:
+    image: postgres:16  # Use the official PostgreSQL image
+    restart: always
+    container_name: uniProfileSrviceCont
+    environment:
+        - POSTGRES_USER=uniPfileServiceUser
+        - POSTGRES_PASSWORD=unipflpass
+        - POSTGRES_DB=uniprofiledb
+    ports:
+        - '5438:5432'
+    volumes:
+        - postgres_db6:/var/lib/postgresql/data    
+    #     - postgres_db:/var/lib/postgresql/data
+    # networks:
+    #   - my-api-net  
+    # volumes:  
 
 
 volumes:
@@ -230,6 +338,12 @@ volumes:
   postgres_db2:
     driver: local
   postgres_db3:
+    driver: local
+  postgres_db4:
+    driver: local
+  postgres_db5:
+    driver: local
+  postgres_db6:
     driver: local
 
 networks:

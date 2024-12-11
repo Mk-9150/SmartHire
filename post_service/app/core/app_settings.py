@@ -63,7 +63,11 @@ class Settings(BaseSettings):
     BOOTSTRAP_SERVER_KAFKA_URL:str
 
     KAFKA_TOPIC_NAME:str
+     
+    SECRET_KEY:str
+    ALGORITHM:str 
 
+     
     SCHEMA_REGISTRY_URL:str    
     
     KAFKA_TOPIC_NAME2:str

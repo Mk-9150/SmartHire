@@ -38,9 +38,9 @@ app=FastAPI(
     lifespan=lifespan
     )
 
-app.include_router(v1_api.apiRoute , prefix=settings.API_V1_STR)
+@app.include_router(v1_api.apiRoute , prefix=settings.API_V1_STR)
 
-app.add_middleware(
+@app.add_middleware(
     CORSMiddleware,
     allow_origins=[str(origin).strip("/") for origin in settings.BACKEND_CORS_ORIGINS],
     allow_credentials=True,

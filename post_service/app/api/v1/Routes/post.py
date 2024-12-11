@@ -1,8 +1,9 @@
-from fastapi import APIRouter , Depends , HTTPException,UploadFile,File,Header ,status,Path,Query
+from fastapi import APIRouter , Depends , HTTPException,UploadFile,File,Header ,status,Path,Query , Form
 from app.Models import post_model 
 from typing import Union , Annotated,Any
+import datetime
 from app.crud.post import posti
-from app.api.deps import session_Dep, tokenDep , kafka_producer
+from app.api.deps import session_Dep, tokenDep , kafka_producer , GET_TOKEN_Data
 from aiokafka import AIOKafkaProducer , AIOKafkaConsumer
 from confluent_kafka.schema_registry import SchemaRegistryClient
 
@@ -32,22 +33,51 @@ async def delivery_report(future):
     
 
 
-# @router.get("/testdata")
+
   
 
 
 
 
 @router.post("/createpost")
-async def createPostt(fale:UploadFile,user:tokenDep,producer:kafka_producer ,sesion:session_Dep)->post_model.PostReturn:  
+# async def createPostt(fale:UploadFile,user:GET_TOKEN_Data,timePlusTimezone:post_model.TimePlus_TimeZone  ,producer:kafka_producer , sesion:session_Dep):  
+# async def createPostt(fale:UploadFile,timePlusTimezone:post_model.TimePlus_TimeZone_idk_why ,producer:kafka_producer , sesion:session_Dep)->Any:  
+# async def createPostt(*,fale:UploadFile,user:GET_TOKEN_Data, timePlusTimezone:post_model.TimePlus_TimeZone_idk_why ,producer:kafka_producer , sesion:session_Dep)->Any:  
+async def createPostt(*,fale:UploadFile,user:GET_TOKEN_Data, timezone:str=Query(alias="timezone")  ,localTime:str=Query(alias="localTime")  ,producer:kafka_producer , sesion:session_Dep):  
+# async def createPostt(*,fale:UploadFile,producer:kafka_producer , sesion:session_Dep):  
     ...
     try:
         ...
-        return await posti.AddPost(user=user,sesion=sesion,fale=fale,producer=producer)          
+        
+        
+        print(localTime)
+        LocalTime_timeZone=post_model.UtcTime_timezone_Model(time_zone=timezone , utc_time=localTime)
+        # print(LocalTime_timeZone.utc_time)   #  remeber this utc_time is represenying local times
+        # return user
+        return await posti.AddPost(user=user,sesion=sesion,timeDate_D=LocalTime_timeZone , fale=fale,producer=producer)          
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
             detail=f"{e}" )  from e
+
+
+
+# @router.post("/lastweekposts/{user_id}",response_model=post_model.PostReturn)
+@router.post("/lastweekposts/{user_id}")
+def get_last_week_posts(user_id:Annotated[int,Path()], timePlusTimezone:post_model.TimePlus_TimeZone, session:session_Dep):
+    ...
+    try:
+        LocalTime_timeZone=post_model.UtcTime_timezone_Model(time_zone=timePlusTimezone.timezone , utc_time=timePlusTimezone.localTime)
+        return posti.get_last_week_posts(username_id=user_id , timePlusTimezone=LocalTime_timeZone , session=session)
+    except HTTPException as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"{e}" )  from e 
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"{e}" )  from e
+
 
 
 

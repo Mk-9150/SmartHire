@@ -1,0 +1,1 @@
+add code   for   at conusmer file   when user try to delete the post  it must be deleted from users feed

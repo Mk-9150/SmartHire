@@ -19,14 +19,16 @@ async def lifespan(app:FastAPI):
     # logger.info("Starting up ...")
     # allowedOrigin=[str(origin).strip("/")  for origin in BACKEND_CORS_ORIGINS ] 
     # create_table()
-    print("at life span")
-    asyncio.create_task(L_consumer("liked","commented",setting.BOOTSTRAP_SERVER_KAFKA_URL,engine))
+    # print("at life span")
+    task_1=asyncio.create_task(L_consumer("liked","commented",setting.BOOTSTRAP_SERVER_KAFKA_URL,engine))
     # print("allowed Origin",allowedOrigin)    
-    yield
+    try:
+        yield
+    finally:
+        task_1.cancel()
+        await asyncio.gather(task_1, return_exceptions=True)    
     # logger.info("App shuting down")
     
-# 
-
 app:FastAPI = FastAPI(
     lifespan=lifespan
 )

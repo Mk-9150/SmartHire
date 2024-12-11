@@ -2,7 +2,7 @@ from aiokafka import AIOKafkaConsumer
 from app.core.app_settings import setting
 from fastapi import HTTPException, status
 from confluent_kafka.schema_registry import SchemaRegistryClient
-from confluent_kafka.serialization import SerializationContext, MessageField
+from confluent_kafka.serialization import SerializationContext, MessageField 
 from confluent_kafka.schema_registry.protobuf import ProtobufDeserializer
 from app.service_schema.like_unlike_post_pb2 import LikePosted, UnlikePosted
 from app.service_schema.coment_wraper_pb2 import AddedComment , DeletedComent

@@ -14,5 +14,9 @@ app.include_router(router.connect)
 @app.get("/")
 def roota():
     return RedirectResponse(url="/docs")
+@app.get("/health")
+def roota():
+    return "good"
     # return "ok"
 
+# http://email_service:8003/healthcheck

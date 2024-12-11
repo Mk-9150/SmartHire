@@ -269,7 +269,7 @@ class QuizEngine:
                 quizToUpdate.topics=[topic for topic in quizToUpdate.topics if topic.id not in list(TopicsToRemove) ]   
                 # print("ok")
                 #remove the quizquestion instance with removeTopicid  and also remove the Question related to These Topics 
-                db.execute(
+                db.exec(
                     delete(QuizQuestion)
                     .where(
                         and_(
@@ -377,7 +377,7 @@ class QuizEngine:
             quizToDelete:Quiz=db.get(Quiz,quiz_id)
             if quizToDelete is None:
                 raise ValueError("Quiz not Found")            
-            logger.info(f"DELETE_QUIZ_TEST: {quiz_to_delete}")
+            logger.info(f"DELETE_QUIZ_TEST: {quizToDelete}")
             db.delete(quizToDelete)
             db.commit()
             return {"message":"Message Deleted SuccessFully"}
